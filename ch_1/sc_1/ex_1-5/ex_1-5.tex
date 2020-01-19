@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+
+\title{SICP Exercise 1-5}
+\author{Samuel Lair}
+\date{January 19, 2020}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Ben Bitdiddle executes the following program:
+
+\begin{verbatim}
+        (define (p) (p))
+        (define (test x y)
+            (if (= x 0)
+               0
+              y))
+        (test 0 (p))
+\end{verbatim}
+
+Describe what happens under applicative-order and normal-order evaluation.
+
+
+
+\section{Applicative-Order Evaluation}
+
+Under applicative-order evaluation, operators and operands are evaluated before applying the resulting procedures.  This poses a problem when evaluating (test 0 (p)).  The definition of (p) is recursive with no terminating base case.  Therefore, an applicative-order interpreter will get stuck in an infinite loop when it tries to evaluate the (p) in (test 0 (p)).
+
+The Scheme interpreter uses applicative-order evaluation so this is what actually happens when this program is evaluated.
+
+\section{Normal-Order Evaluation}
+Under normal-order evaluation, operands are not evaluated until their values are needed.  Therefore, (test 0 (p)) is expanded to:
+
+\begin{verbatim}
+        (if (= 0 0)
+            0
+            (p)))
+\end{verbatim}
+
+Since 0 equals 0, a normal-order interpreter will return 0 without evaluating (p).
+
+\end{document}
